@@ -1,0 +1,17 @@
+mqtt:
+  broker: 142.93.58.237 # or an ip address like 192.168.1.164
+  port: 3000
+  QOS: 1
+
+camera:
+  video_source: 0 # http://192.168.1.134:8000/stream.mjpg for a picamera running web_server.py
+  fps: 0.5 
+  mqtt_topic: ""
+
+processing:
+  subscribe_topic: /usb_cam/image_raw_mqtt2
+  publish_topic: /usb_cam/image_raw_mqtt
+
+save-captures:
+  mqtt_topic: homie/mac_webcam/capture
+  captures_directory: captures/

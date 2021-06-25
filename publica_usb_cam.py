@@ -12,9 +12,9 @@ from imutils import opencv2matplotlib
 from PIL import Image
 import io
 mqttc = mqtt.Client()
-diminuir_imagem = True
+diminuir_imagem = False
 Porcentagem = 50
-Qualidade = 20
+Qualidade = 100
 start = 0
 
 def on_message(mqttc, obj, msg):
@@ -54,30 +54,31 @@ def pil_image_to_byte_array(image):
 if __name__ == '__main__':
 	conecta()
 	mqttc.subscribe("/usb_cam/image_raw_mqtt2", 1)
-        bridge = CvBridge()
+    
 	#camera = VideoStream(src=4, framerate=60 ).start()
-	cam = cv2.VideoCapture(0)
+	#cam = cv2.VideoCapture(0)
 	mqttc.loop_start()
 	while True:
-		ret_val, frame = cam.read()
+		timev = 1
+		#ret_val, frame = cam.read()
 	
 		
 		
 		#frame = camera.read()		
                 #frame = bridge.imgmsg_to_cv2(camera.read(), desired_encoding='passthrough')
-                try:
-                        if diminuir_imagem == True:
+             #   try:
+             #           if diminuir_imagem == True:
 				        #modifica o tamnho da figura
-				        scale_percent = Porcentagem # percent of original size
-				        width = int(frame.shape[1] * scale_percent / 100)
-				        height = int(frame.shape[0] * scale_percent / 100)
-				        dim = (width, height)
-				        # resize image
-				        resized = cv2.resize(frame, dim, interpolation = cv2.INTER_AREA)
-				        frame = resized
+			#				scale_percent = Porcentagem # percent of original size
+			#				width = int(frame.shape[1] * scale_percent / 100)
+			#				height = int(frame.shape[0] * scale_percent / 100)
+			#				dim = (width, height)
+			#				# resize image
+			#				resized = cv2.resize(frame, dim, interpolation = cv2.INTER_AREA)
+			#				frame = resized
 				        
-		except:
-			print "Erro ao obter o video, verifique se esta na fonte certa"
+		#except:
+		#	print "Erro ao obter o video, verifique se esta na fonte certa"
 
 		#np_array_RGB = opencv2matplotlib(frame)  # Convert to RGB
 
@@ -87,16 +88,16 @@ if __name__ == '__main__':
 		
 		
 			
-		try:
-			encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),Qualidade]
-			result, imgencode = cv2.imencode('.jpg', frame, encode_param)
-			data = numpy.array(imgencode)
-			stringData = data.tostring()
+		#try:
+			#encode_param=[int(cv2.IMWRITE_JPEG_QUALITY)]
+			#result, imgencode = cv2.imencode('.png', frame, encode_param)
+			#data = numpy.array(imgencode)
+			#stringData = data.tostring()
 			#print len(stringData)
-			mqttc.publish("/usb_cam/image_raw_mqtt", stringData,  qos=1)                                              
+			#mqttc.publish("/usb_cam/image_raw_mqtt", stringData,  qos=1)                                              
 		       
-		except:
-			sock.close()
-			time.sleep(2)
-			conecta()
+		#except:
+			#sock.close()
+			#time.sleep(2)
+			#conecta()
 
